@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import EventDetail from "./pages/EventDetail.jsx";
+import PrivacyPolicy from "./pages/PrivacyPolicy.jsx";
 import PageViewTracker from "./components/PageViewTracker.jsx";
 import { api } from "./api";
 import logo from "./images/logo.png";
@@ -54,8 +55,21 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </main>
+      <footer className="site-footer">
+        <div className="site-footer-inner">
+          <span className="footer-copy">
+            Made by{" "}
+            <a href="https://nexgensoftwares.in" target="_blank" rel="noreferrer" className="footer-link">
+              Nexgen
+            </a>
+          </span>
+          <span className="footer-sep">·</span>
+          <a href="/privacy-policy" className="footer-link">Privacy Policy</a>
+        </div>
+      </footer>
     </>
   );
 }

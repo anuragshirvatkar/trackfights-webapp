@@ -10,6 +10,7 @@ export default function Home() {
   const [upcoming, setUpcoming] = useState([]);
   const [live, setLive] = useState([]);
   const [completed, setCompleted] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -25,10 +26,13 @@ export default function Home() {
         setLive(l);
         setCompleted(c);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   const featured = banner[0];
+
+  if (loading) return <Spinner />;
 
   return (
     <div>
@@ -45,9 +49,7 @@ export default function Home() {
             <div className="banner-copy">
               <p className="banner-kicker">{featured.promotion}</p>
               <h1 className="banner-title">{featured.eventName}</h1>
-              <p className="banner-meta">
-                {formatIndiaDate(featured.date)} · {formatIndiaTime(featured.startTime)}
-              </p>
+
               {getWatchPlatforms(featured).length > 0 && (
                 <div className="watch-inline">
                   {getWatchPlatforms(featured).map((p) =>
@@ -123,6 +125,14 @@ function statusClass(status) {
   if (status === "live") return "badge badge-live";
   if (status === "completed") return "badge badge-completed";
   return "badge badge-upcoming";
+}
+
+function Spinner() {
+  return (
+    <div className="page-spinner">
+      <div className="spinner" />
+    </div>
+  );
 }
 
 function EventGrid({ events }) {

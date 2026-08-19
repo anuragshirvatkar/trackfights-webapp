@@ -23,12 +23,14 @@ import { getWatchPlatforms, PlatformIcon } from "../platformIcons.jsx";
 export default function EventDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [myVotes, setMyVotes] = useState({});
 
   useEffect(() => {
     let active = true;
     setEvent(null);
+    setLoading(true);
     api
       .getEvent(id)
       .then((data) => {
@@ -43,7 +45,8 @@ export default function EventDetail() {
       })
       .catch((err) => {
         if (active) setError(err.message);
-      });
+      })
+      .finally(() => { if (active) setLoading(false); });
     return () => {
       active = false;
     };
@@ -81,8 +84,9 @@ export default function EventDetail() {
     });
   }
 
+  if (loading) return <div className="page-spinner"><div className="spinner" /></div>;
   if (error) return <p className="error-msg page">{error}</p>;
-  if (!event) return <p className="loading page">Loading…</p>;
+  if (!event) return null;
 
   const platforms = getWatchPlatforms(event);
   const { headline, sub } = splitEventTitle(event.eventName);

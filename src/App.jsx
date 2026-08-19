@@ -10,6 +10,7 @@ import logo from "./images/logo.png";
 export default function App() {
   const [navEvent, setNavEvent] = useState(null);
   const [navKind, setNavKind] = useState("upcoming");
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -25,8 +26,13 @@ export default function App() {
           setNavKind("upcoming");
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setAppReady(true));
   }, []);
+
+  if (!appReady) {
+    return <div className="app-loading" />;
+  }
 
   return (
     <>

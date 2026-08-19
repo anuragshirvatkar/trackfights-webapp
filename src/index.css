@@ -18,6 +18,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #root { margin: 0; min-height: 100%; }
+html, body { overflow-x: hidden; }
 
 body {
   font-family: Inter, system-ui, sans-serif;
@@ -732,12 +733,21 @@ a.watch-chip:hover { border-color: var(--accent); background: rgba(225,6,0,0.12)
   }
   .logo img { height: 52px; }
   .nav-event {
-    max-width: none;
-    padding: 7px 10px;
-    gap: 0;
-    flex-shrink: 0;
+    max-width: calc(100vw - 120px);
+    padding: 6px 10px;
+    gap: 6px;
+    flex-shrink: 1;
+    min-width: 0;
   }
-  .nav-event-name,
+  .nav-event span { min-width: 0; }
+  .nav-event-name {
+    display: block;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
   .nav-event svg { display: none; }
   .nav-event-label { font-size: 9px; letter-spacing: 0.12em; }
   .page { padding: 20px 16px 56px; }
@@ -751,6 +761,14 @@ a.watch-chip:hover { border-color: var(--accent); background: rgba(225,6,0,0.12)
   .vs-text { font-size: 20px; }
   .grid { grid-template-columns: 1fr; }
   .vote-btns { grid-template-columns: 1fr; }
+}
+
+/* ── App loading (pitch black fullscreen) ── */
+.app-loading {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
 }
 
 /* ── Spinner ── */

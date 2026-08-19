@@ -10,7 +10,6 @@ export default function Home() {
   const [upcoming, setUpcoming] = useState([]);
   const [live, setLive] = useState([]);
   const [completed, setCompleted] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -26,13 +25,10 @@ export default function Home() {
         setLive(l);
         setCompleted(c);
       })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+      .catch((err) => setError(err.message));
   }, []);
 
   const featured = banner[0];
-
-  if (loading) return <Spinner />;
 
   return (
     <div>
@@ -125,14 +121,6 @@ function statusClass(status) {
   if (status === "live") return "badge badge-live";
   if (status === "completed") return "badge badge-completed";
   return "badge badge-upcoming";
-}
-
-function Spinner() {
-  return (
-    <div className="page-spinner">
-      <div className="spinner" />
-    </div>
-  );
 }
 
 function EventGrid({ events }) {
